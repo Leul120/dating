@@ -28,7 +28,7 @@ sharedGoals} = req.body;
        
         let mailOptions = {
     from: '"His Royal Highness, King Leul" <kingleul@royaldating.com>',
-    to: req.body.email,
+    to: email,
     subject: '👑 Royal Decree: Your Dating Application Has Been Approved! 🎉',
     text: "Congratulations! You've been deemed worthy to date royalty!",
     html: `
