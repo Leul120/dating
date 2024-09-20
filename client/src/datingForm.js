@@ -153,7 +153,7 @@ const DatingForm = () => {
   const onSubmit = async (data) => {
     try{
       console.log(data);
-      message.success('Form submitted! Cupid is doing a happy dance! 💃🏼, Please check you email Address', 3);
+      // message.success('Form submitted! Cupid is doing a happy dance! 💃🏼, Please check you email Address', 3);
       const response=await axios.post('https://datingkingleul.onrender.com/submit-form',data)
       console.log(response)
       
