@@ -77,7 +77,7 @@ const HomePage = () => {
                 <li>✅ Must laugh at ALL my jokes (even the bad ones)</li>
                 <li>✅ Ability to eat pizza without making a mess (superhuman power)</li>
                 <li>✅ Must be able to talk about our existence and philosophy whenever i want</li>
-                <li>✅ Willingness to debate whether a Erteb is a sandwich or a Burger</li>
+                <li>✅ Willingness to debate whether an Erteb is a sandwich or a Burger</li>
               </ul>
             </Card>
           </animated.div>
@@ -122,7 +122,7 @@ const HomePage = () => {
           <Button 
             type="primary" 
             size="large" 
-            className="cta-button" 
+            className="cta-button w-full text-wrap" 
             style={{ marginTop: '20px', background: '#FF69B4', borderColor: '#FF1493' }}
             onClick={() => alert("Congratulations! You've won a lifetime supply of cheesy jokes and dad puns! 🎉🧀")}
           >
