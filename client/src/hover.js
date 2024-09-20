@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Button, Typography, Layout, Space, Modal } from 'antd';
+import { Button, Typography, Layout, Space, Modal, message } from 'antd';
 import { HeartOutlined, CloseOutlined } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
@@ -10,7 +10,9 @@ const ReadyToDatePage = () => {
   const [clickAttempts, setClickAttempts] = useState(0);
   const containerRef = useRef(null);
   const yesButtonRef = useRef(null);
-
+  useEffect(()=>{
+    message.success('Form submitted! Cupid is doing a happy dance! 💃🏼, Please check you email Address', 3);
+  },[])
   const getRandomPosition = () => {
     const containerRect = containerRef.current.getBoundingClientRect();
     const yesButtonRect = yesButtonRef.current.getBoundingClientRect();
