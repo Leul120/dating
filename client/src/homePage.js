@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Typography, Card, Row, Col, Tooltip, Modal, Spin } from '@/components/ui/card';
+import { Button, Typography, Card, Row, Col, Tooltip, Modal, Spin } from 'antd';
+import { HeartOutlined, RocketOutlined, CrownOutlined, SmileOutlined, ThunderboltOutlined, StarOutlined, CoffeeOutlined, PizzaOutlined, CustomerServiceOutlined, GitlabOutlined } from '@ant-design/icons';
 import { useSpring, animated, config, useTrail } from 'react-spring';
 import { Link } from 'react-router-dom';
-import { Heart, Rocket, Crown, Smile, Zap, Star, Coffee, Pizza, Headphones, Cat } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
-const { Title, Text } = Typography;
+const { Title, Text, Paragraph } = Typography;
 
 const HomePage = () => {
   const [isHovering, setIsHovering] = useState(false);
@@ -86,26 +86,26 @@ const HomePage = () => {
   };
 
   return (
-    <div className="p-4 bg-gradient-to-br from-pink-200 to-blue-200 min-h-screen overflow-hidden">
-      <animated.div style={fadeIn} className="text-center mb-8">
-        <Title className="text-4xl font-bold">
+    <div style={{ padding: '20px', background: 'linear-gradient(135deg, #FFB6C1, #87CEFA)', minHeight: '100vh' }}>
+      <animated.div style={fadeIn}>
+        <Title level={1} style={{ textAlign: 'center', marginBottom: '20px' }}>
           <animated.span style={rainbowText} className="bg-clip-text text-transparent">
             Welcome to the Dating Circus! 🎪
           </animated.span>
-          <animated.span style={spinningHeart}><Heart className="inline-block ml-2 text-red-500" /></animated.span>
+          <animated.span style={spinningHeart}><HeartOutlined style={{ marginLeft: '10px', color: '#FF69B4' }} /></animated.span>
         </Title>
-        <Text className="text-xl text-purple-800">
+        <Paragraph style={{ fontSize: '18px', color: '#4B0082', textAlign: 'center' }}>
           Where love is a laughing matter and your soulmate might just be a clown! 🤡💘
-        </Text>
+        </Paragraph>
       </animated.div>
 
-      <Row className="mb-8">
-        <Col xs={24} md={12} className="p-2">
+      <Row gutter={[16, 16]} style={{ marginBottom: '20px' }}>
+        <Col xs={24} md={12}>
           <animated.div style={bounce} onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
-            <Card className="bg-yellow-300 rounded-xl shadow-lg">
-              <Title level={3} className="text-center mb-4">🎭 The "You Must Be This Crazy to Ride" List</Title>
+            <Card hoverable style={{ background: '#FFD700', borderRadius: '15px' }}>
+              <Title level={3} style={{ textAlign: 'center', marginBottom: '20px' }}>🎭 The "You Must Be This Crazy to Ride" List</Title>
               {trail.map((props, index) => (
-                <animated.li key={index} style={props} className="mb-2 text-lg">
+                <animated.li key={index} style={{ ...props, marginBottom: '10px', fontSize: '16px' }}>
                   {[
                     "Must laugh at my jokes (even when they're so bad, they're good)",
                     "Ability to turn Netflix browsing into an Olympic sport",
@@ -117,12 +117,12 @@ const HomePage = () => {
             </Card>
           </animated.div>
         </Col>
-        <Col xs={24} md={12} className="p-2">
+        <Col xs={24} md={12}>
           <animated.div style={bounce} onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
-            <Card className="bg-green-200 rounded-xl shadow-lg">
-              <Title level={3} className="text-center mb-4">🦄 My Totally Real and Not at All Exaggerated Qualities</Title>
+            <Card hoverable style={{ background: '#98FB98', borderRadius: '15px' }}>
+              <Title level={3} style={{ textAlign: 'center', marginBottom: '20px' }}>🦄 My Totally Real and Not at All Exaggerated Qualities</Title>
               {trail.map((props, index) => (
-                <animated.li key={index} style={props} className="mb-2 text-lg">
+                <animated.li key={index} style={{ ...props, marginBottom: '10px', fontSize: '16px' }}>
                   {[
                     "Can turn water into wine (or at least convincingly fake it)",
                     "Ability to read minds (but only for pizza toppings)",
@@ -136,45 +136,49 @@ const HomePage = () => {
         </Col>
       </Row>
 
-      <animated.div style={fadeIn} className="text-center mb-8">
-        <Title level={2} className="text-2xl font-bold text-purple-700 mb-4">
+      <animated.div style={fadeIn}>
+        <Title level={2} style={{ textAlign: 'center', color: '#8A2BE2', marginBottom: '20px' }}>
           Why I'm Basically a Superhero (in My Own Mind) 🦸‍♂️
         </Title>
-        <Row className="justify-center">
+        <Row gutter={[16, 16]} justify="center" style={{ marginBottom: '20px' }}>
           {[
-            { icon: <Coffee size={24} />, text: "I turn coffee into code and chaos" },
-            { icon: <Pizza size={24} />, text: "I can eat a whole pizza without regret" },
-            { icon: <Headphones size={24} />, text: "My playlists have their own fan clubs" },
-            { icon: <Cat size={24} />, text: "I speak fluent cat (meow means meow, right?)" },
-            { icon: <Zap size={24} />, text: "I can parallel park... in video games" },
-            { icon: <Star size={24} />, text: "I've never lost a staring contest with my reflection" }
+            { icon: <CoffeeOutlined />, text: "I turn coffee into code and chaos" },
+            { icon: <PizzaOutlined />, text: "I can eat a whole pizza without regret" },
+            { icon: <CustomerServiceOutlined />, text: "My playlists have their own fan clubs" },
+            { icon: <GitlabOutlined />, text: "I speak fluent cat (meow means meow, right?)" },
+            { icon: <ThunderboltOutlined />, text: "I can parallel park... in video games" },
+            { icon: <StarOutlined />, text: "I've never lost a staring contest with my reflection" }
           ].map((trait, index) => (
-            <Col xs={12} md={4} key={index} className="mb-4">
+            <Col xs={12} md={4} key={index}>
               <Tooltip title={trait.text}>
-                <animated.div style={index % 2 === 0 ? spinningHeart : rocketLaunch} className="text-pink-500">
-                  {trait.icon}
+                <animated.div style={index % 2 === 0 ? spinningHeart : rocketLaunch}>
+                  {React.cloneElement(trait.icon, { style: { fontSize: '24px', color: '#FF1493' } })}
                 </animated.div>
               </Tooltip>
             </Col>
           ))}
         </Row>
-        <Button 
-          onClick={handleCtaClick}
-          className="mt-6 bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-full text-lg"
-        >
-          {isLoading ? <Spin /> : "Dive into the Love Lagoon! 🏊‍♂️💘"}
-        </Button>
+        <div style={{ textAlign: 'center' }}>
+          <Button 
+            type="primary" 
+            size="large"
+            onClick={handleCtaClick}
+            style={{ background: '#FF69B4', borderColor: '#FF1493' }}
+          >
+            {isLoading ? <Spin /> : "Dive into the Love Lagoon! 🏊‍♂️💘"}
+          </Button>
+        </div>
       </animated.div>
 
-      <animated.div style={fadeIn} className="text-center">
-        <Card className="bg-white bg-opacity-80 rounded-xl shadow-lg">
-          <Title level={4} className="mb-2">Dad Joke of the Moment (Groan Warning):</Title>
-          <Text className="text-lg italic">"{currentJoke}"</Text>
+      <animated.div style={fadeIn}>
+        <Card style={{ marginTop: '20px', background: 'rgba(255, 255, 255, 0.8)' }}>
+          <Title level={4}>Dad Joke of the Moment (Groan Warning):</Title>
+          <Text italic>{currentJoke}</Text>
         </Card>
       </animated.div>
 
       <Modal
-        open={showModal}
+        visible={showModal}
         onOk={() => setShowModal(false)}
         onCancel={() => setShowModal(false)}
         title="🎉 Congratulations, Brave Soul! 🎉"
