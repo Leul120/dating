@@ -62,8 +62,8 @@ const HomePage = () => {
   });
 
   const rainbowText = useSpring({
-    from: { background: 'linear-gradient(0deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #8b00ff)' },
-    to: { background: 'linear-gradient(360deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #8b00ff)' },
+    from: { background: 'linear-gradient(0deg, #668c70, #84a16a, #6d6696, #00ff00, #78404f, #8b00ff)' },
+    to: { background: 'linear-gradient(360deg, #784040, #7a7242, #ffff00, #00ff00, #547a42, #8b00ff)' },
     config: { duration: 3000 },
     loop: true,
   });
@@ -89,7 +89,7 @@ const HomePage = () => {
     <div style={{ padding: '20px', background: 'linear-gradient(135deg, #FFB6C1, #87CEFA)', minHeight: '100vh' }}>
       <animated.div style={fadeIn}>
         <Title level={1} style={{ textAlign: 'center', marginBottom: '20px' }}>
-          <animated.span style={rainbowText} className="bg-clip-text text-transparent">
+          <animated.span style={rainbowText} className="bg-clip-text text-transparent p-2 rounded-lg">
             Welcome to the Dating Circus! 🎪
           </animated.span>
           <animated.span style={spinningHeart}><FaHeart style={{ marginLeft: '10px', color: '#FF69B4' }} /></animated.span>
