@@ -7,19 +7,18 @@ import { SmileOutlined, HeartOutlined, FireOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
 const { Step } = Steps;
-const { Title ,Text} = Typography;
+const { Title } = Typography;
 const { Option } = Select;
 
 const steps = [
   {
     title: 'Emotional Rollercoaster',
     fields: ['emotionalIntelligence', 'communicationSkills'],
-    content: ({ control, errors, defaultValues }) => (
+    content: ({ control, errors }) => (
       <Form layout="vertical">
         <Controller
           name="emotionalIntelligence"
           control={control}
-          defaultValue={defaultValues.emotionalIntelligence}
           rules={{ required: 'I need to gauge your drama potential!' }}
           render={({ field }) => (
             <Form.Item
@@ -38,7 +37,6 @@ const steps = [
         <Controller
           name="communicationSkills"
           control={control}
-          defaultValue={defaultValues.communicationSkills}
           rules={{ required: 'How else will I know if you can order pizza correctly?' }}
           render={({ field }) => (
             <Form.Item
@@ -60,12 +58,11 @@ const steps = [
   {
     title: 'Values & Beliefs',
     fields: ['sharedGoals', 'ethics'],
-    content: ({ control, errors, defaultValues }) => (
+    content: ({ control, errors }) => (
       <Form layout="vertical">
         <Controller
           name="sharedGoals"
           control={control}
-          // defaultValue={defaultValues.sharedGoals}
           rules={{ required: 'I need to know if our Netflix queues will align!' }}
           render={({ field }) => (
             <Form.Item
@@ -79,14 +76,12 @@ const steps = [
                 <Option value="adventure">Adventurous - My middle name is 'Danger' 🏄‍♂️</Option>
                 <Option value="chill">Chill & Relax - Professional couch tester 🛋️</Option>
               </Select>
-              {/* <Text type='danger'>I need to know if our Netflix queues will align!</Text> */}
             </Form.Item>
           )}
         />
         <Controller
           name="ethics"
           control={control}
-          // defaultValue={defaultValues.ethics}
           rules={{ required: 'I need to know if you return shopping carts!' }}
           render={({ field }) => (
             <Form.Item
@@ -97,8 +92,7 @@ const steps = [
               <Radio.Group {...field}>
                 <Radio value="strict">Strict - I alphabetize my spice rack 🧂</Radio>
                 <Radio value="flexible">Flexible - Cereal for dinner? Why not! 🥣</Radio>
-              </Radio.Group><br/>
-              {/* <Text type='danger' >I need to know if you return shopping carts!</Text> */}
+              </Radio.Group>
             </Form.Item>
           )}
         />
@@ -108,12 +102,11 @@ const steps = [
   {
     title: 'Physical Attraction',
     fields: ['appearance', 'sexualCompatibility', 'email', 'phone'],
-    content: ({ control, errors, defaultValues }) => (
+    content: ({ control, errors }) => (
       <Form layout="vertical">
         <Controller
           name="appearance"
           control={control}
-          defaultValue={defaultValues.appearance}
           rules={{ required: 'I promise I am not shallow, but...' }}
           render={({ field }) => (
             <Form.Item
@@ -128,14 +121,12 @@ const steps = [
                 <Option value="mystery">Mystery - I like surprises 🎭</Option>
                 <Option value="alien">Alien - I'm into the extraterrestrial 👽</Option>
               </Select>
-              {/* <Text type='danger'>I promise I am not shallow, but...</Text> */}
             </Form.Item>
           )}
         />
         <Controller
           name="sexualCompatibility"
           control={control}
-          defaultValue={defaultValues.sexualCompatibility}
           rules={{ required: 'This is crucial for... reasons.' }}
           render={({ field }) => (
             <Form.Item
@@ -148,14 +139,12 @@ const steps = [
                 <Radio value="medium">Medium - Netflix AND chill 📺</Radio>
                 <Radio value="low">Low - I'm here for the personality 😇</Radio>
               </Radio.Group>
-              {/* <Text type='danger' >This is crucial for... reasons.</Text> */}
             </Form.Item>
           )}
         />
         <Controller
           name="email"
           control={control}
-          defaultValue={defaultValues.email}
           rules={{
             required: 'I promise not to spam... much 📧',
             pattern: { value: /^\S+@\S+$/i, message: 'Must be a valid email' },
@@ -169,7 +158,6 @@ const steps = [
         <Controller
           name="phone"
           control={control}
-          defaultValue={defaultValues.phone}
           rules={{
             required: 'How else will I send you memes?',
             pattern: { value: /^[0-9]+$/, message: 'Numbers only, please!' },
@@ -187,17 +175,19 @@ const steps = [
 
 const DatingForm = () => {
   const [current, setCurrent] = useState(0);
-  const { control, handleSubmit, formState: { errors }, reset, getValues } = useForm({
-    defaultValues: {
-      emotionalIntelligence: undefined,
-      communicationSkills: undefined,
-      sharedGoals: undefined,
-      ethics: undefined,
-      appearance: undefined,
-      sexualCompatibility: undefined,
-      email: undefined,
-      phone: undefined,
-    }
+  const [formData, setFormData] = useState({
+    emotionalIntelligence: undefined,
+    communicationSkills: undefined,
+    sharedGoals: undefined,
+    ethics: undefined,
+    appearance: undefined,
+    sexualCompatibility: undefined,
+    email: undefined,
+    phone: undefined,
+  });
+
+  const { control, handleSubmit, setValue, formState: { errors } } = useForm({
+    defaultValues: formData,
   });
 
   const navigate = useNavigate();
@@ -211,74 +201,99 @@ const DatingForm = () => {
 
   const next = () => {
     handleSubmit((data) => {
-      // Reset form data for the next step
-      reset(); // This clears the form values
-      setCurrent(current + 1); // Move to the next step
+      
+      setFormData({ ...formData, ...data });
+      setCurrent(current + 1);
     })();
   };
 
   const prev = () => setCurrent(current - 1);
 
-  const onSubmit = async (data) => {
-    try {
-      const finalData = data; // Only submit current form data
-      const response = await axios.post('https://datingkingleul.onrender.com/submit-form', finalData);
-      console.log(response);
-      navigate('/hover');
-    } catch (error) {
-      console.error(error);
-      message.error(getRandomErrorMessage(), 5);
-    }
-  };
+ const onSubmit = async (data) => {
+  const finalData = { ...formData, ...data };
+  // Create a loading message that stays active until the request completes
+  const loadingMessage = message.loading("Processing your request...", 0); // 0 duration keeps it open until closed manually
+
+  try {
+    console.log(finalData);
+
+    const response = await axios.post('https://datingkingleul.onrender.com/submit-form', finalData);
+    console.log(response);
+
+    // Close the loading message on success
+    loadingMessage.then(() => {
+      message.success("Form submitted successfully!", 3); // Display success message after closing
+    });
+
+    // Navigate after successful submission
+    navigate('/hover');
+  } catch (error) {
+    console.error(error);
+
+    // Close the loading message on error
+    loadingMessage.then(() => {
+      message.error(getRandomErrorMessage(), 5); // Display error message after closing
+    });
+  }
+};
+
 
   const getRandomErrorMessage = () => {
     const messages = [
       "Oops! Cupid's arrow missed the server. Maybe he needs glasses? 🏹👓",
       "Love connection failed. Have you tried turning your heart off and on again? ❤️🔌",
-      "Error 404: Soulmate not found. Have you checked under the couch? 🛋️👀",
+      "Error 404: Soulmate not found. Have you checked under the couch? 🛋️",
       "Our love algorithm caught a cold. Can you try again when Mercury isn't in retrograde? 🌠🤧",
       "The server rejected our advances. It must be playing hard to get! 💔💻"
     ];
     return messages[Math.floor(Math.random() * messages.length)];
   };
 
+  // Set previously saved values when component loads
+  React.useEffect(() => {
+    Object.keys(formData).forEach((key) => {
+      setValue(key, formData[key]);
+    });
+  }, [current, setValue, formData]);
+
   return (
-    <div className='p-32'>
-      <Card className="form-card" style={{ maxWidth: 800, margin: 'auto', padding: '2rem', boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.1)' }}>
-        <Title level={2} style={{ textAlign: 'center' }}>
+    <div >
+    <Card className="form-card" style={{ maxWidth: 800, margin: 'auto', padding: '2rem', boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.1)' }}>
+       <Title level={2} style={{ textAlign: 'center' }}>
           <SmileOutlined spin /> Love Laboratory <HeartOutlined spin />
         </Title>
-        <Steps current={current} size="small" style={{ marginBottom: '2rem' }}>
-          {steps.map((step, index) => (
-            <Step key={index} title={step.title} icon={index === 2 ? <FireOutlined /> : null} />
-          ))}
-        </Steps>
+      <Steps current={current} size="small" style={{ marginBottom: '2rem' }}>
+        {steps.map((step, index) => (
+          <Step key={index} title={step.title} icon={index === 2 ? <FireOutlined /> : null} />
+        ))}
+      </Steps>
 
+    
         <animated.div style={springProps}>
-          {steps[current].content({ control, errors, defaultValues: getValues() })}
+          {steps[current].content({ control, errors })}
         </animated.div>
+      
 
-        <div className="steps-action" style={{ marginTop: '2rem', textAlign: 'center' }}>
-          {current > 0 && (
-            <Button style={{ marginRight: 8 }} onClick={prev}>
-              ⬅️ Oops, I lied
-            </Button>
-          )}
-          {current < steps.length - 1 && (
-            <Button type="primary" onClick={next}>
-              Next Awkward Question ➡️
-            </Button>
-          )}
-          {current === steps.length - 1 && (
-            <Button type="primary" onClick={handleSubmit(onSubmit)}>
-              Find My Soulmate! 🔮
-            </Button>
-          )}
-        </div>
+      <div style={{ marginTop: 24 ,textAlign: 'center'}}>
+        {current > 0 && (
+          <Button style={{ marginRight: 8 }} onClick={prev}>
+           ⬅️ Oops, I lied
+          </Button>
+        )}
+        {current < steps.length - 1 && (
+          <Button type="primary" onClick={next}>
+            Next Awkward Question ➡️
+          </Button>
+        )}
+        {current === steps.length - 1 && (
+          <Button type="primary" onClick={handleSubmit(onSubmit)}>
+             Find My Soulmate! 🔮
+          </Button>
+        )}
+      </div>
       </Card>
     </div>
   );
 };
-
 
 export default DatingForm;
