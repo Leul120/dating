@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Typography, Card, Row, Col, Tooltip, Modal, Spin } from 'antd';
 import { FaHeart, FaRocket, FaCrown, FaSmile, FaBolt, FaStar, FaCoffee, FaPizzaSlice, FaHeadphones, FaCat } from 'react-icons/fa';
 import { useSpring, animated, config, useTrail } from 'react-spring';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import confetti from 'canvas-confetti';
 
 const { Title, Text, Paragraph } = Typography;
@@ -12,7 +12,7 @@ const HomePage = () => {
   const [showModal, setShowModal] = useState(false);
   const [currentJoke, setCurrentJoke] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
+  const navigate=useNavigate()
   const jokes = [
     "I told my date I had a job in construction. I'm building a relationship, of course!",
     "Why did the scarecrow become a successful dating coach? He was outstanding in his field!",
@@ -62,8 +62,8 @@ const HomePage = () => {
   });
 
   const rainbowText = useSpring({
-    from: { background: 'linear-gradient(0deg, #668c70, #84a16a, #6d6696, #00ff00, #78404f, #8b00ff)' },
-    to: { background: 'linear-gradient(360deg, #784040, #7a7242, #ffff00, #00ff00, #547a42, #8b00ff)' },
+    from: { background: 'linear-gradient(0deg, #668c70, #84a16a, #6d6696, #37693c, #78404f, #6a7353)' },
+    to: { background: 'linear-gradient(360deg, #784040, #7a7242, #427a57, #42727a, #547a42, #424f7a)' },
     config: { duration: 3000 },
     loop: true,
   });
@@ -88,8 +88,8 @@ const HomePage = () => {
   return (
     <div style={{ padding: '20px', background: 'linear-gradient(135deg, #FFB6C1, #87CEFA)', minHeight: '100vh' }}>
       <animated.div style={fadeIn}>
-        <Title level={1} style={{ textAlign: 'center', marginBottom: '20px' }}>
-          <animated.span style={rainbowText} className="bg-clip-text text-transparent p-2 rounded-lg">
+        <Title level={1} style={{ textAlign: 'center', marginBottom: '20px' }} className='p-2 rounded-lg'>
+          <animated.span  className="bg-clip-text text-transparent ">
             Welcome to the Dating Circus! 🎪
           </animated.span>
           <animated.span style={spinningHeart}><FaHeart style={{ marginLeft: '10px', color: '#FF69B4' }} /></animated.span>
@@ -179,7 +179,9 @@ const HomePage = () => {
 
       <Modal
         visible={showModal}
-        onOk={() => setShowModal(false)}
+        onOk={() => {setShowModal(false)
+        navigate('/form')
+        }}
         onCancel={() => setShowModal(false)}
         title="🎉 Congratulations, Brave Soul! 🎉"
       >
