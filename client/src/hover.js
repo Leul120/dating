@@ -11,7 +11,7 @@ const ReadyToDatePage = () => {
   const containerRef = useRef(null);
   const yesButtonRef = useRef(null);
   useEffect(()=>{
-    message.success('Form submitted! Cupid is doing a happy dance! 💃🏼, Please check you email Address', 3);
+    message.success('Form submitted! Cupid is doing a happy dance! 💃🏼, Please check you email Address', 10);
   },[])
   const getRandomPosition = () => {
     const containerRect = containerRef.current.getBoundingClientRect();
