@@ -212,7 +212,7 @@ const DatingForm = () => {
  const onSubmit = async (data) => {
   const finalData = { ...formData, ...data };
   // Create a loading message that stays active until the request completes
-  const loadingMessage = message.loading("Processing your request...", 0); // 0 duration keeps it open until closed manually
+   message.loading("Processing your request...", 2); // 0 duration keeps it open until closed manually
 
   try {
     console.log(finalData);
@@ -220,20 +220,11 @@ const DatingForm = () => {
     const response = await axios.post('https://datingkingleul.onrender.com/submit-form', finalData);
     console.log(response);
 
-    // Close the loading message on success
-    loadingMessage.then(() => {
-      message.success("Form submitted successfully!", 3); // Display success message after closing
-    });
-
-    // Navigate after successful submission
+    
     navigate('/hover');
   } catch (error) {
     console.error(error);
-
-    // Close the loading message on error
-    loadingMessage.then(() => {
-      message.error(getRandomErrorMessage(), 5); // Display error message after closing
-    });
+      message.error(getRandomErrorMessage(), 5); 
   }
 };
 
