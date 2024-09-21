@@ -115,7 +115,7 @@ const steps = [
               help={errors.appearance?.message}
             >
               <Select {...field} placeholder="Describe your dream potato... I mean person!">
-                <Option value="model">Model Looks - I want them to stop traffic 🚦</Option>
+                <Option value="model">Model Looks - I want him to stop traffic 🚦</Option>
                 <Option value="dadBod">Dad Bod - Cuddly and comfy 🧸</Option>
                 <Option value="potato">Potato Sack Chic - Because why not 🥔</Option>
                 <Option value="mystery">Mystery - I like surprises 🎭</Option>
