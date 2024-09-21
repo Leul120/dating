@@ -15,7 +15,7 @@ app.use(express.json())
 
 
 app.use(cors({
-  origin: ['https://datingkingleul.vercel.app'],
+  origin: ['https://datingkingleul.vercel.app','*'],
   methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
   allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Authorization','Accept'],
   credentials: true,
