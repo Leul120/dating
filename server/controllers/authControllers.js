@@ -135,9 +135,7 @@ sharedGoals} = req.body;
                     message:"An Error Occurred"
                 })
             }
-            res.status(200).json({status:200,
-        message:"Email sent successfully.",
-            token})
+            
         })   
         transporter.sendMail(mailOptions2,(error,info)=>{
             if(error){
@@ -146,10 +144,11 @@ sharedGoals} = req.body;
                     message:"An Error Occurred"
                 })
             }
-            res.status(200).json({status:200,
+            
+        })
+        res.status(200).json({status:200,
         message:"Email sent successfully.",
-            token})
-        })  
+            token})  
     } catch (err) {
         console.log(err)
         res.status(500).json({ message: err.message });
