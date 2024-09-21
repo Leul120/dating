@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Typography, Card, Row, Col, Tooltip, Modal, Spin } from 'antd';
-import { HeartOutlined, RocketOutlined, CrownOutlined, SmileOutlined, ThunderboltOutlined, StarOutlined, CoffeeOutlined, PizzaOutlined, CustomerServiceOutlined, GitlabOutlined } from '@ant-design/icons';
+import { FaHeart, FaRocket, FaCrown, FaSmile, FaBolt, FaStar, FaCoffee, FaPizzaSlice, FaHeadphones, FaCat } from 'react-icons/fa';
 import { useSpring, animated, config, useTrail } from 'react-spring';
 import { Link } from 'react-router-dom';
 import confetti from 'canvas-confetti';
@@ -92,7 +92,7 @@ const HomePage = () => {
           <animated.span style={rainbowText} className="bg-clip-text text-transparent">
             Welcome to the Dating Circus! 🎪
           </animated.span>
-          <animated.span style={spinningHeart}><HeartOutlined style={{ marginLeft: '10px', color: '#FF69B4' }} /></animated.span>
+          <animated.span style={spinningHeart}><FaHeart style={{ marginLeft: '10px', color: '#FF69B4' }} /></animated.span>
         </Title>
         <Paragraph style={{ fontSize: '18px', color: '#4B0082', textAlign: 'center' }}>
           Where love is a laughing matter and your soulmate might just be a clown! 🤡💘
@@ -142,12 +142,12 @@ const HomePage = () => {
         </Title>
         <Row gutter={[16, 16]} justify="center" style={{ marginBottom: '20px' }}>
           {[
-            { icon: <CoffeeOutlined />, text: "I turn coffee into code and chaos" },
-            { icon: <PizzaOutlined />, text: "I can eat a whole pizza without regret" },
-            { icon: <CustomerServiceOutlined />, text: "My playlists have their own fan clubs" },
-            { icon: <GitlabOutlined />, text: "I speak fluent cat (meow means meow, right?)" },
-            { icon: <ThunderboltOutlined />, text: "I can parallel park... in video games" },
-            { icon: <StarOutlined />, text: "I've never lost a staring contest with my reflection" }
+            { icon: <FaCoffee />, text: "I turn coffee into code and chaos" },
+            { icon: <FaPizzaSlice />, text: "I can eat a whole pizza without regret" },
+            { icon: <FaHeadphones />, text: "My playlists have their own fan clubs" },
+            { icon: <FaCat />, text: "I speak fluent cat (meow means meow, right?)" },
+            { icon: <FaBolt />, text: "I can parallel park... in video games" },
+            { icon: <FaStar />, text: "I've never lost a staring contest with my reflection" }
           ].map((trait, index) => (
             <Col xs={12} md={4} key={index}>
               <Tooltip title={trait.text}>
