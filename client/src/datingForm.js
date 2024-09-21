@@ -4,7 +4,8 @@ import { useSpring, animated } from 'react-spring';
 import { useForm, Controller } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { SmileOutlined, HeartOutlined, FireOutlined } from '@ant-design/icons';
-import axios from 'axios'
+import axios from 'axios';
+
 const { Step } = Steps;
 const { Title } = Typography;
 const { Option } = Select;
@@ -132,7 +133,7 @@ const steps = [
 const DatingForm = () => {
   const [current, setCurrent] = useState(0);
   const { control, handleSubmit, formState: { errors } } = useForm();
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const springProps = useSpring({
     opacity: 1,
     transform: 'translateY(0px)',
@@ -151,63 +152,65 @@ const DatingForm = () => {
   const prev = () => setCurrent(current - 1);
 
   const onSubmit = async (data) => {
-    try{
-      console.log(data);
-      // message.success('Form submitted! Cupid is doing a happy dance! 💃🏼, Please check you email Address', 3);
-      const response=await axios.post('https://datingkingleul.onrender.com/submit-form',data)
-      console.log(response)
+    try {
+      const response = await axios.post('https://datingkingleul.onrender.com/submit-form', data);
+      console.log(response);
       
-    }catch(error){
-      console.log(error)
+      
+        navigate('/hover');
+    } catch (error) {
+      console.error(error);
+      message.error(getRandomErrorMessage(), 5);
     }
-    
   };
- 
+
+  const getRandomErrorMessage = () => {
+    const messages = [
+      "Oops! Cupid's arrow missed the server. Maybe he needs glasses? 🏹👓",
+      "Love connection failed. Have you tried turning your heart off and on again? ❤️🔌",
+      "Error 404: Soulmate not found. Have you checked under the couch? 🛋️👀",
+      "Our love algorithm caught a cold. Can you try again when Mercury isn't in retrograde? 🌠🤧",
+      "The server rejected our advances. It must be playing hard to get! 💔💻"
+    ];
+    return messages[Math.floor(Math.random() * messages.length)];
+  };
 
   return (
     <div className='p-32'>
-    <Card className="form-card" style={{ maxWidth: 800, margin: 'auto', padding: '2rem', boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.1)' }}>
-      <Title level={2} style={{ textAlign: 'center' }}>
-        <SmileOutlined spin /> Love Laboratory <HeartOutlined spin />
-      </Title>
-      <Steps current={current} size="small" style={{ marginBottom: '2rem' }}>
-        {steps.map((step, index) => (
-          <Step key={index} title={step.title} icon={index === 2 ? <FireOutlined /> : null} />
-        ))}
-      </Steps>
+      <Card className="form-card" style={{ maxWidth: 800, margin: 'auto', padding: '2rem', boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.1)' }}>
+        <Title level={2} style={{ textAlign: 'center' }}>
+          <SmileOutlined spin /> Love Laboratory <HeartOutlined spin />
+        </Title>
+        <Steps current={current} size="small" style={{ marginBottom: '2rem' }}>
+          {steps.map((step, index) => (
+            <Step key={index} title={step.title} icon={index === 2 ? <FireOutlined /> : null} />
+          ))}
+        </Steps>
 
-      <animated.div style={springProps}>
-        {steps[current].content({ control, errors })}
-      </animated.div>
+        <animated.div style={springProps}>
+          {steps[current].content({ control, errors })}
+        </animated.div>
 
-      <div className="steps-action" style={{ marginTop: '2rem', textAlign: 'center' }}>
-        {current > 0 && (
-          <Button style={{ marginRight: 8 }} onClick={prev}>
-            ⬅️ Oops, I lied
-          </Button>
-        )}
-        {current < steps.length - 1 && (
-          <Button type="primary" onClick={next}>
-            Next Awkward Question ➡️
-          </Button>
-        )}
-        {current === steps.length - 1 && (
-          
-            <Button type="primary" onClick={()=>{handleSubmit(onSubmit)
-            setTimeout(()=>{
-        navigate('/hover')
-      },[4000])
-      
-            }}>
+        <div className="steps-action" style={{ marginTop: '2rem', textAlign: 'center' }}>
+          {current > 0 && (
+            <Button style={{ marginRight: 8 }} onClick={prev}>
+              ⬅️ Oops, I lied
+            </Button>
+          )}
+          {current < steps.length - 1 && (
+            <Button type="primary" onClick={next}>
+              Next Awkward Question ➡️
+            </Button>
+          )}
+          {current === steps.length - 1 && (
+            <Button type="primary" onClick={handleSubmit(onSubmit)}>
               Find My Soulmate! 🔮
             </Button>
-        
-        )}
-      </div>
-    </Card>
+          )}
+        </div>
+      </Card>
     </div>
   );
 };
 
 export default DatingForm;
-
