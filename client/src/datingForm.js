@@ -2,35 +2,50 @@ import React, { useState } from 'react';
 import { Steps, Button, Form, Input, Radio, Select, Slider, Typography, Card, message } from 'antd';
 import { useSpring, animated } from 'react-spring';
 import { useForm, Controller } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { SmileOutlined, HeartOutlined, FireOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
 const { Step } = Steps;
-const { Title } = Typography;
+const { Title ,Text} = Typography;
 const { Option } = Select;
 
 const steps = [
   {
     title: 'Emotional Rollercoaster',
-    content: ({ control, errors }) => (
+    fields: ['emotionalIntelligence', 'communicationSkills'],
+    content: ({ control, errors, defaultValues }) => (
       <Form layout="vertical">
         <Controller
           name="emotionalIntelligence"
           control={control}
+          defaultValue={defaultValues.emotionalIntelligence}
           rules={{ required: 'I need to gauge your drama potential!' }}
           render={({ field }) => (
-            <Form.Item label="Emotional Intelligence (aka Drama-o-meter)" validateStatus={errors.emotionalIntelligence ? 'error' : ''} help={errors.emotionalIntelligence?.message}>
-              <Slider {...field} marks={{ 1: 'Drama Queen 👑', 5: 'Meh 😐', 10: 'Cucumber Cool 🥒' }} max={10} />
+            <Form.Item
+              label="Emotional Intelligence (aka Drama-o-meter)"
+              validateStatus={errors.emotionalIntelligence ? 'error' : ''}
+              help={errors.emotionalIntelligence?.message}
+            >
+              <Slider
+                {...field}
+                marks={{ 1: 'Drama Queen 👑', 5: 'Meh 😐', 10: 'Cucumber Cool 🥒' }}
+                max={10}
+              />
             </Form.Item>
           )}
         />
         <Controller
           name="communicationSkills"
           control={control}
+          defaultValue={defaultValues.communicationSkills}
           rules={{ required: 'How else will I know if you can order pizza correctly?' }}
           render={({ field }) => (
-            <Form.Item label="Communication Skills" validateStatus={errors.communicationSkills ? 'error' : ''} help={errors.communicationSkills?.message}>
+            <Form.Item
+              label="Communication Skills"
+              validateStatus={errors.communicationSkills ? 'error' : ''}
+              help={errors.communicationSkills?.message}
+            >
               <Radio.Group {...field}>
                 <Radio value="excellent">Excellent - I speak fluent emoji 🤓</Radio>
                 <Radio value="average">Average - I can grunt in multiple languages 🦍</Radio>
@@ -44,33 +59,46 @@ const steps = [
   },
   {
     title: 'Values & Beliefs',
-    content: ({ control, errors }) => (
+    fields: ['sharedGoals', 'ethics'],
+    content: ({ control, errors, defaultValues }) => (
       <Form layout="vertical">
         <Controller
           name="sharedGoals"
           control={control}
+          // defaultValue={defaultValues.sharedGoals}
           rules={{ required: 'I need to know if our Netflix queues will align!' }}
           render={({ field }) => (
-            <Form.Item label="Life Goals (Choose wisely, no pressure)" validateStatus={errors.sharedGoals ? 'error' : ''} help={errors.sharedGoals?.message}>
+            <Form.Item
+              label="Life Goals (Choose wisely, no pressure)"
+              validateStatus={errors.sharedGoals ? 'error' : ''}
+              help={errors.sharedGoals?.message}
+            >
               <Select {...field} placeholder="Select your life's mission">
                 <Option value="career">Career Driven - Sleeping with my laptop 💻</Option>
-                <Option value="family">Family Oriented - I've named my future kids 👶👶👶</Option>
+                <Option value="family">Family Oriented - I’ve named my future kids 👶👶👶</Option>
                 <Option value="adventure">Adventurous - My middle name is 'Danger' 🏄‍♂️</Option>
                 <Option value="chill">Chill & Relax - Professional couch tester 🛋️</Option>
               </Select>
+              {/* <Text type='danger'>I need to know if our Netflix queues will align!</Text> */}
             </Form.Item>
           )}
         />
         <Controller
           name="ethics"
           control={control}
+          // defaultValue={defaultValues.ethics}
           rules={{ required: 'I need to know if you return shopping carts!' }}
           render={({ field }) => (
-            <Form.Item label="Moral Compass" validateStatus={errors.ethics ? 'error' : ''} help={errors.ethics?.message}>
+            <Form.Item
+              label="Moral Compass"
+              validateStatus={errors.ethics ? 'error' : ''}
+              help={errors.ethics?.message}
+            >
               <Radio.Group {...field}>
                 <Radio value="strict">Strict - I alphabetize my spice rack 🧂</Radio>
                 <Radio value="flexible">Flexible - Cereal for dinner? Why not! 🥣</Radio>
-              </Radio.Group>
+              </Radio.Group><br/>
+              {/* <Text type='danger' >I need to know if you return shopping carts!</Text> */}
             </Form.Item>
           )}
         />
@@ -79,36 +107,59 @@ const steps = [
   },
   {
     title: 'Physical Attraction',
-    content: ({ control, errors }) => (
+    fields: ['appearance', 'sexualCompatibility', 'email', 'phone'],
+    content: ({ control, errors, defaultValues }) => (
       <Form layout="vertical">
         <Controller
           name="appearance"
           control={control}
+          defaultValue={defaultValues.appearance}
           rules={{ required: 'I promise I am not shallow, but...' }}
           render={({ field }) => (
-            <Form.Item label="Ideal Look (No pressure, I'm all handsome)" validateStatus={errors.appearance ? 'error' : ''} help={errors.appearance?.message}>
-              <Input {...field} placeholder="E.g., 'Must look good in potato sack' 🥔" />
+            <Form.Item
+              label="Ideal Look (No pressure, I'm all handsome)"
+              validateStatus={errors.appearance ? 'error' : ''}
+              help={errors.appearance?.message}
+            >
+              <Select {...field} placeholder="Describe your dream potato... I mean person!">
+                <Option value="model">Model Looks - I want them to stop traffic 🚦</Option>
+                <Option value="dadBod">Dad Bod - Cuddly and comfy 🧸</Option>
+                <Option value="potato">Potato Sack Chic - Because why not 🥔</Option>
+                <Option value="mystery">Mystery - I like surprises 🎭</Option>
+                <Option value="alien">Alien - I'm into the extraterrestrial 👽</Option>
+              </Select>
+              {/* <Text type='danger'>I promise I am not shallow, but...</Text> */}
             </Form.Item>
           )}
         />
         <Controller
           name="sexualCompatibility"
           control={control}
+          defaultValue={defaultValues.sexualCompatibility}
           rules={{ required: 'This is crucial for... reasons.' }}
           render={({ field }) => (
-            <Form.Item label="Bedroom Harmony" validateStatus={errors.sexualCompatibility ? 'error' : ''} help={errors.sexualCompatibility?.message}>
+            <Form.Item
+              label="Bedroom Harmony"
+              validateStatus={errors.sexualCompatibility ? 'error' : ''}
+              help={errors.sexualCompatibility?.message}
+            >
               <Radio.Group {...field}>
                 <Radio value="high">High - I'll make the neighbors jealous 😏</Radio>
                 <Radio value="medium">Medium - Netflix AND chill 📺</Radio>
                 <Radio value="low">Low - I'm here for the personality 😇</Radio>
               </Radio.Group>
+              {/* <Text type='danger' >This is crucial for... reasons.</Text> */}
             </Form.Item>
           )}
         />
         <Controller
           name="email"
           control={control}
-          rules={{ required: 'I promise not to spam... much 📧', pattern: { value: /^\S+@\S+$/i, message: 'Must be a valid email' } }}
+          defaultValue={defaultValues.email}
+          rules={{
+            required: 'I promise not to spam... much 📧',
+            pattern: { value: /^\S+@\S+$/i, message: 'Must be a valid email' },
+          }}
           render={({ field }) => (
             <Form.Item validateStatus={errors.email ? 'error' : ''} help={errors.email?.message}>
               <Input {...field} placeholder="Email (for love letters only)" />
@@ -118,7 +169,11 @@ const steps = [
         <Controller
           name="phone"
           control={control}
-          rules={{ required: 'How else will I send you memes?', pattern: { value: /^[0-9]+$/, message: 'Numbers only, please!' } }}
+          defaultValue={defaultValues.phone}
+          rules={{
+            required: 'How else will I send you memes?',
+            pattern: { value: /^[0-9]+$/, message: 'Numbers only, please!' },
+          }}
           render={({ field }) => (
             <Form.Item validateStatus={errors.phone ? 'error' : ''} help={errors.phone?.message}>
               <Input {...field} placeholder="Phone (for emergency cat videos)" />
@@ -132,7 +187,19 @@ const steps = [
 
 const DatingForm = () => {
   const [current, setCurrent] = useState(0);
-  const { control, handleSubmit, formState: { errors } } = useForm();
+  const { control, handleSubmit, formState: { errors }, reset, getValues } = useForm({
+    defaultValues: {
+      emotionalIntelligence: undefined,
+      communicationSkills: undefined,
+      sharedGoals: undefined,
+      ethics: undefined,
+      appearance: undefined,
+      sexualCompatibility: undefined,
+      email: undefined,
+      phone: undefined,
+    }
+  });
+
   const navigate = useNavigate();
   const springProps = useSpring({
     opacity: 1,
@@ -143,9 +210,10 @@ const DatingForm = () => {
   });
 
   const next = () => {
-    handleSubmit(() => {
-      setCurrent(current + 1);
-      message.success("You're one step closer to true love! 💘", 2);
+    handleSubmit((data) => {
+      // Reset form data for the next step
+      reset(); // This clears the form values
+      setCurrent(current + 1); // Move to the next step
     })();
   };
 
@@ -153,11 +221,10 @@ const DatingForm = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post('https://datingkingleul.onrender.com/submit-form', data);
+      const finalData = data; // Only submit current form data
+      const response = await axios.post('https://datingkingleul.onrender.com/submit-form', finalData);
       console.log(response);
-      
-      
-        navigate('/hover');
+      navigate('/hover');
     } catch (error) {
       console.error(error);
       message.error(getRandomErrorMessage(), 5);
@@ -188,7 +255,7 @@ const DatingForm = () => {
         </Steps>
 
         <animated.div style={springProps}>
-          {steps[current].content({ control, errors })}
+          {steps[current].content({ control, errors, defaultValues: getValues() })}
         </animated.div>
 
         <div className="steps-action" style={{ marginTop: '2rem', textAlign: 'center' }}>
@@ -212,5 +279,6 @@ const DatingForm = () => {
     </div>
   );
 };
+
 
 export default DatingForm;
