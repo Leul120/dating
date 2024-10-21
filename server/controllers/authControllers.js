@@ -130,6 +130,7 @@ sharedGoals} = req.body;
 };
         transporter.sendMail(mailOptions,(error,info)=>{
             if(error){
+                console.log(error)
                 res.status(400).json({
                     status:400,
                     message:"An Error Occurred"
