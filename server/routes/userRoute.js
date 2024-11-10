@@ -8,4 +8,4 @@ router.route('').post((req,res)=>{
         message:"hello "
     })
 })
-module.exports=router
+module.exports=router;
