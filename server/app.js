@@ -24,7 +24,7 @@ app.use(cors({
 app.use('/',userRouter)
 
 app.get("/us",(req,res)=>{
-    res.send({
+    res.status(200).json({
         message:"hello "
     })
 })
