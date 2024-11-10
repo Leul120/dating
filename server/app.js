@@ -15,13 +15,19 @@ app.use(express.json())
 
 
 app.use(cors({
-  origin: ['https://leul.vercel.app','http://localhost:3000'],
+  origin: ['https://leul.vercel.app','http://localhost:3000','*'],
   methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
   allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Authorization','Accept'],
   credentials: true,
 }));
 
 app.use('/',userRouter)
+
+app.get("/us",(req,res)=>{
+    res.send({
+        message:"hello "
+    })
+})
 
 
 const hostname='0.0.0.0'
